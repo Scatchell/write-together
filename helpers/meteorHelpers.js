@@ -1,6 +1,7 @@
 MeteorHelpers = {
     sortByParents: function(list) {
         if(list.length == 0) return [];
+
         var top = list.filter(function(e){
             return e.parent == 'top';
         })[0];

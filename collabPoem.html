@@ -5,16 +5,27 @@
 <body>
     <h1>Collaboratively create a poem!</h1>
 
+    {{> loginButtons }}
+
     {{#each lines}}
     {{> line}}
     {{/each}}
+
+    {{#if currentUser}}
     <p>
     <span id="new-line">
         Next line: <input id="new-line-text" type="text"> <a id="add-new-line-link" href="#">+</a>
     </span>
     </p>
+    {{/if}}
 </body>
 
 <template name="line">
-<p><span class="line-text">{{text}}</span><span class="line-user">({{userName}})</span></p>
+<p>
+    <span class="replace-line">
+        <a href="#">&lt;-&gt;</a>
+    </span>
+    <span class="line-text">{{text}}</span>
+    <span class="line-user">({{userName}})</span>
+</p>
 </template>

@@ -27,13 +27,18 @@ if (Meteor.isClient) {
 
             Lines.insert({
                 text: newLineText,
-                userName: currentUser,
+                userId: Meteor.userId(),
+                userName: Meteor.user().username,
                 favorites: 0,
                 parent: parent
             })
 
             //$("#new-line-text").val("");
         }
+    });
+
+    Accounts.ui.config({
+        passwordSignupFields: "USERNAME_AND_EMAIL"
     });
 }
 
