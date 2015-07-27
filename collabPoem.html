@@ -1,0 +1,20 @@
+<head>
+<title>collabPoem</title>
+</head>
+
+<body>
+    <h1>Collaboratively create a poem!</h1>
+
+    {{#each lines}}
+    {{> line}}
+    {{/each}}
+    <p>
+    <span id="new-line">
+        Next line: <input id="new-line-text" type="text"> <a id="add-new-line-link" href="#">+</a>
+    </span>
+    </p>
+</body>
+
+<template name="line">
+<p><span class="line-text">{{text}}</span><span class="line-user">({{userName}})</span></p>
+</template>
