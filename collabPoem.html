@@ -22,8 +22,11 @@
 
 <template name="line">
 <p>
+<span id="{{_id}}" class="replacement-line">
+    <input id="replacement-line-text" type="text">
+</span>
     <span class="replace-line">
-        <a href="#">&lt;-&gt;</a>
+        <a id="{{_id}}" href="#">&lt;-&gt;</a>
     </span>
     <span class="line-text">{{text}}</span>
     <span class="line-user">({{userName}})</span>

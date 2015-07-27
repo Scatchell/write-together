@@ -1,1 +1,4 @@
 /* CSS declarations go here */
+.replacement-line{
+    display: none;
+}

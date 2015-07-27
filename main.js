@@ -32,8 +32,11 @@ if (Meteor.isClient) {
                 favorites: 0,
                 parent: parent
             })
+        },
+        'click .replace-line': function (event) {
+            var targetId = event.target.id;
 
-            //$("#new-line-text").val("");
+            $("#" + targetId + ".replacement-line").show();
         }
     });
 
