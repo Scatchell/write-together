@@ -8,7 +8,10 @@
     {{> loginButtons }}
 
     {{#each lines}}
-    {{> line}}
+        <p>
+            {{> replacementLine}}
+            {{> line}}
+        </p>
     {{/each}}
 
     {{#if currentUser}}
@@ -21,14 +24,20 @@
 </body>
 
 <template name="line">
-<p>
-<span id="{{_id}}" class="replacement-line">
-    <input id="replacement-line-text" type="text">
-</span>
+        <span class="line-text">{{text}}</span>
+        <span class="line-user">({{userName}})</span>
+        <div class="alternative-lines">
+            {{#each alternatives}}
+            -- {{> line}}
+            {{/each}}
+        </div>
+</template>
+
+<template name="replacementLine">
     <span class="replace-line">
-        <a id="{{_id}}" href="#">&lt;-&gt;</a>
+        <a href="#">&lt;-&gt;</a>
     </span>
-    <span class="line-text">{{text}}</span>
-    <span class="line-user">({{userName}})</span>
-</p>
+    <span id="{{_id}}" class="replacement-line">
+        <input id="{{_id}}" class="replacement-line-text" type="text"> <a id="add-replacement-line-link" href="#">+</a>
+    </span>
 </template>

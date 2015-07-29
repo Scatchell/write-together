@@ -2,3 +2,7 @@
 .replacement-line{
     display: none;
 }
+
+.alternative-lines{
+    margin-left: 20px;
+}

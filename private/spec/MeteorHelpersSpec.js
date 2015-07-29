@@ -1,30 +1,70 @@
-describe("Rate", function() {
+describe("CollabPoem", function() {
     var list;
+    var toIds = function(e) {
+        return e._id;
+    };
+    var lineThree = {
+        _id: 3,
+        text: 'line3',
+        favorites: 0,
+        ordering: 1
+    };
 
     beforeEach(function() {
+
         list = [
             {
-            id: 1,
+            _id: 1,
             text: 'line1',
-            parent: 'top'
+            favorites: 0,
+            ordering: 0
         },
         {
-            id: 2,
+            _id: 2,
             text: 'line2',
-            parent: 3
+            favorites: 0,
+            ordering: 2
         },
-        {
-            id: 3,
-            text: 'line3',
-            parent: 1
-        },
+        lineThree
         ];
     });
 
-    it("should sort a list by parents", function() {
+    it("should sort a list by order attribute", function() {
         var sortedList = MeteorHelpers.sortByParents(list);
-        var sortedListIds = sortedList.map(function(e){ return e.id; })
-        expect(sortedListIds).toEqual([1,3,2])
+        var sortedListIds = sortedList.map(toIds);
+        expect(sortedListIds).toEqual([1,3,2]);
     });
 
+    it("should ignore an empty list", function(){
+        expect(MeteorHelpers.sortByParents([])).toEqual([]);
+    });
+
+    describe("Multiple lines with same parent", function(){
+        beforeEach(function() {
+            list.push({
+                _id: 4,
+                text: 'line3 alternative',
+                favorites: 2,
+                ordering: 1
+            });
+        });
+
+
+        it("should get number of lines with unique ordering values", function() {
+            var uniqueOrderingValues = MeteorHelpers.uniqueOrderingValues(list);
+            expect(uniqueOrderingValues).toEqual([0, 2, 1]);
+        });
+
+        it("should use only highest ranked lines when sorting", function() {
+            var sortedList = MeteorHelpers.sortByParents(list);
+            var sortedListIds = sortedList.map(toIds);
+            expect(sortedListIds).toEqual([1,4,2]);
+        });
+
+        it("should add any alternative lines to object", function() {
+            var sortedList = MeteorHelpers.sortByParents(list);
+            var lineWithAlternatives = sortedList.slice(1,2)[0];
+            expect(lineWithAlternatives.alternatives).toEqual([lineThree]);
+        });
+    });
 });

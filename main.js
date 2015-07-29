@@ -3,8 +3,11 @@ var currentUser = "Anthony";
 Lines = new Mongo.Collection("lines");
 var lines = function() {
     var list = Lines.find({}).fetch();
+    var sortedList = MeteorHelpers.sortByParents(list);
 
-    return MeteorHelpers.sortByParents(list);
+    //gather replacement lines into alternativeLines
+
+    return sortedList;
 }
 
 if (Meteor.isClient) {
@@ -23,20 +26,40 @@ if (Meteor.isClient) {
 
             var currentLines = lines();
 
-            var parent = (currentLines.length == 0) ? 'top' : currentLines[currentLines.length - 1]._id;
+            var order = (currentLines.length == 0) ? 0 : currentLines[currentLines.length - 1].ordering + 1;
 
             Lines.insert({
                 text: newLineText,
                 userId: Meteor.userId(),
                 userName: Meteor.user().username,
                 favorites: 0,
-                parent: parent
-            })
+                ordering: order
+            });
+
+            $("#new-line-text").val('');
         },
         'click .replace-line': function (event) {
-            var targetId = event.target.id;
+            var replacementLine = $("#" + this._id + ".replacement-line");
+            if(replacementLine.is(":visible")){
+                replacementLine.hide();
+            } else {
+                $(".replacement-line").hide();
+                replacementLine.show();
+            }
+        },
+        'click #add-replacement-line-link': function (event) {
+            var newLineText = $("#"+this._id+".replacement-line-text").val();
 
-            $("#" + targetId + ".replacement-line").show();
+            Lines.insert({
+                text: newLineText,
+                userId: Meteor.userId(),
+                userName: Meteor.user().username,
+                favorites: 0,
+                ordering: this.ordering
+            });
+
+            $("#"+this._id+".replacement-line-text").val('');
+            $("#"+this._id+".replacement-line").hide();
         }
     });
 

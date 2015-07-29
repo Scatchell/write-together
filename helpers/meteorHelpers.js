@@ -2,26 +2,33 @@ MeteorHelpers = {
     sortByParents: function(list) {
         if(list.length == 0) return [];
 
-        var top = list.filter(function(e){
-            return e.parent == 'top';
-        })[0];
-
-        var others = list.filter(function(e){
-            return e.parent != 'top';
+        //remove?
+        var sortedLines = list.sort(function(a,b){
+            return a.ordering - b.ordering;
         });
 
-        var sortedList = [top];
+        var sortedList = [];
 
-        var workingItem = top;
-        others.forEach(function(e){
-            workingItem = others.filter(function(filterElement) {
-                return filterElement.parent == workingItem._id;
-            })[0];
+        MeteorHelpers.uniqueOrderingValues(sortedLines).forEach(function(orderingValue){
+            var linesMatchingOrderingValue = list.filter(function(line) {
+                return line.ordering == orderingValue;
+            });
 
-            sortedList.push(workingItem);
+            var matchingItemsSortedByFavorites = linesMatchingOrderingValue.sort(
+                function(a,b) { return b.favorites - a.favorites; }
+            );
+            var topRatedMatch = matchingItemsSortedByFavorites[0];
+            topRatedMatch.alternatives = matchingItemsSortedByFavorites.slice(1);
+            sortedList.push(topRatedMatch);
         });
 
         return sortedList;
 
+    },
+    uniqueOrderingValues: function(list) {
+        return list.reduce(function(array, element){
+            if(array.indexOf(element.ordering) < 0) array.push(element.ordering);
+            return array;
+        }, []);
     }
 }
