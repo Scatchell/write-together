@@ -1,43 +1,61 @@
 <head>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <title>collabPoem</title>
 </head>
 
 <body>
-    <h1>Collaboratively create a poem!</h1>
+    <div class="container">
+        <h1>Collaboratively create a poem!</h1>
 
-    {{> loginButtons }}
+        <div class="row">
+        {{> loginButtons }}
+        </div>
 
-    {{#each lines}}
-        <p>
+        {{#each lines}}
+        <div class="row">
             {{> replacementLine}}
             {{> line}}
-        </p>
-    {{/each}}
+        </div>
+        {{/each}}
 
-    {{#if currentUser}}
-    <p>
-    <span id="new-line">
-        Next line: <input id="new-line-text" type="text"> <a id="add-new-line-link" href="#">+</a>
-    </span>
-    </p>
-    {{/if}}
+        {{#if currentUser}}
+        <p>
+        <span id="new-line">
+            <div class="row">
+            <div class="input-field col s6">
+                Next line: <input id="new-line-text" type="text">
+            </div>
+            </div>
+            <a id="add-new-line-link" class="btn-floating btn waves-effect waves-light red">
+                <i class="material-icons">add</i>
+            </a>
+        </span>
+        </p>
+        {{/if}}
+    </div>
 </body>
 
 <template name="line">
-        <span class="line-text">{{text}}</span>
-        <span class="line-user">({{userName}})</span>
-        <div class="alternative-lines">
-            {{#each alternatives}}
-            -- {{> line}}
-            {{/each}}
-        </div>
+    <span class="line-text">{{text}}</span>
+    <span class="line-user">({{userName}})</span>
+    <div class="alternative-lines">
+        {{#each alternatives}}
+        --{{> line}}
+        {{/each}}
+    </div>
 </template>
 
 <template name="replacementLine">
     <span class="replace-line">
-        <a href="#">&lt;-&gt;</a>
+        <a href="#" class="tooltipped" data-position="bottom" data-delay="20" data-tooltip="Suggest line replacement"><i class="material-icons">swap_horiz</i></a>
     </span>
-    <span id="{{_id}}" class="replacement-line">
-        <input id="{{_id}}" class="replacement-line-text" type="text"> <a id="add-replacement-line-link" href="#">+</a>
-    </span>
+    <div id="{{_id}}" class="replacement-line">
+        <div class="input-field col s3">
+            <input id="{{_id}}" class="replacement-line-text" type="text">
+        </div>
+        <a id="add-replacement-line-link" href="#">
+            <i class="material-icons">add</i>
+        </a>
+    </div>
 </template>
+

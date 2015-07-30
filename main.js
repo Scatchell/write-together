@@ -5,14 +5,11 @@ var lines = function() {
     var list = Lines.find({}).fetch();
     var sortedList = MeteorHelpers.sortByParents(list);
 
-    //gather replacement lines into alternativeLines
-
     return sortedList;
 }
 
 if (Meteor.isClient) {
-    // counter starts at 0
-    Session.setDefault('counter', 0);
+    //Session.setDefault('counter', 0);
 
     Template.body.helpers({
         lines: lines
