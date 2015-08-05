@@ -12,7 +12,16 @@ if (Meteor.isClient) {
     //Session.setDefault('counter', 0);
 
     Template.body.helpers({
-        lines: lines
+        lines: lines,
+        log: function () {
+            console.log(this);
+        }
+    });
+
+    Template.line.helpers({
+        log: function () {
+            console.log(this);
+        }
     });
 
     Template.body.events({
@@ -30,12 +39,14 @@ if (Meteor.isClient) {
                 userId: Meteor.userId(),
                 userName: Meteor.user().username,
                 favorites: 0,
+                poemId: 0,
                 ordering: order
             });
 
             $("#new-line-text").val('');
         },
         'click .replace-line': function (event) {
+            event.preventDefault();
             var replacementLine = $("#" + this._id + ".replacement-line");
             if(replacementLine.is(":visible")){
                 replacementLine.hide();
@@ -45,6 +56,7 @@ if (Meteor.isClient) {
             }
         },
         'click #add-replacement-line-link': function (event) {
+            event.preventDefault();
             var newLineText = $("#"+this._id+".replacement-line-text").val();
 
             Lines.insert({
@@ -57,6 +69,12 @@ if (Meteor.isClient) {
 
             $("#"+this._id+".replacement-line-text").val('');
             $("#"+this._id+".replacement-line").hide();
+        },
+        'click .favorite-up a': function (event) {
+            event.preventDefault();
+            Lines.update(this._id, {
+                $set: { favorites: this.favorites + 1 }
+            })
         }
     });
 

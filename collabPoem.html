@@ -36,11 +36,19 @@
 </body>
 
 <template name="line">
-    <span class="line-text">{{text}}</span>
-    <span class="line-user">({{userName}})</span>
+    <div class="line">
+        <span class="line-text">{{text}}</span>
+        <span class="line-user">({{userName}})</span>
+        {{#if isAlternative}}
+        <span class="favorite-up">
+            <a href="#">+ ({{favorites}})</a>
+        </span>
+        {{/if}}
+    </div>
+
     <div class="alternative-lines">
         {{#each alternatives}}
-        --{{> line}}
+        {{>line }}
         {{/each}}
     </div>
 </template>

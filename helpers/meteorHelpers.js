@@ -18,7 +18,12 @@ MeteorHelpers = {
                 function(a,b) { return b.favorites - a.favorites; }
             );
             var topRatedMatch = matchingItemsSortedByFavorites[0];
+            topRatedMatch.isAlternative = false;
+
             topRatedMatch.alternatives = matchingItemsSortedByFavorites.slice(1);
+            topRatedMatch.alternatives.forEach(function(line) {
+                line.isAlternative = true;
+            });
             sortedList.push(topRatedMatch);
         });
 
