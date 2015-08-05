@@ -11,7 +11,6 @@ describe("CollabPoem", function() {
     };
 
     beforeEach(function() {
-
         list = [
             {
             _id: 1,
@@ -61,9 +60,11 @@ describe("CollabPoem", function() {
             expect(sortedListIds).toEqual([1,4,2]);
         });
 
-        it("should add any alternative lines to object", function() {
+        it("should add any alternative lines to a line", function() {
             var sortedList = MeteorHelpers.sortByParents(list);
-            var lineWithAlternatives = sortedList.slice(1,2)[0];
+            var lineWithAlternatives = sortedList[1];
+            expect(lineWithAlternatives.isAlternative).toEqual(false);
+            expect(lineWithAlternatives.alternatives[0].isAlternative).toEqual(true);
             expect(lineWithAlternatives.alternatives).toEqual([lineThree]);
         });
     });
