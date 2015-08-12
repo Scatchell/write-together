@@ -8,7 +8,7 @@ if (Meteor.isClient) {
     //Session.setDefault('counter', 0);
 
     var lines = function() {
-        var list = Lines.find({}).fetch();
+        var list = Lines.find({}, {sort: {createdAt: 1}}).fetch();
         var sortedList = MeteorHelpers.sortByParents(list);
 
         return sortedList;
@@ -29,6 +29,7 @@ if (Meteor.isClient) {
             userName: Meteor.user().username,
             favorites: 0,
             poemId: 0,
+            createdAt: new Date(),
             ordering: order
         });
 
@@ -46,6 +47,7 @@ if (Meteor.isClient) {
             userName: Meteor.user().username,
             favorites: 0,
             poemId: 0,
+            createdAt: new Date(),
             ordering: line.ordering
         });
 
