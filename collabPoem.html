@@ -3,6 +3,8 @@
 <title>collabPoem</title>
 </head>
 
+<!--TODO remove tooltips-->
+
 <body>
     <div class="container">
         <h1>Collaboratively create a poem!</h1>
@@ -11,32 +13,50 @@
         {{> loginButtons }}
         </div>
 
-        {{#each lines}}
-        <div class="row">
-            {{> replacementLine}}
-            {{> line}}
-        </div>
-        {{/each}}
+        <table id="poem-table">
+            <tbody>
+                {{#each lines}}
+                            <tr>
+                                <td>
+                                    {{> replacementLine}}
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div id="{{_id}}" class="replacement-line col s12">
+                                            <div class="row">
+                                            <div class="input-field col s10">
+                                                <input id="{{_id}}" class="replacement-line-text" type="text">
+                                            </div>
+                                            <div id="add-replacement-line" class="col s2">
+                                                <a id="add-replacement-line-link" href="#">
+                                                    <i class="material-icons">add</i>
+                                                </a>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{> line}}
+                                </td>
+                            </tr>
+                {{/each}}
+            </tbody>
+        </table>
 
         {{#if currentUser}}
-        <p>
-        <span id="new-line">
-            <div class="row">
+        <div id="new-line" class="row">
             <div class="input-field col s6">
                 Next line: <input id="new-line-text" type="text">
             </div>
-            </div>
-            <a id="add-new-line-link" class="btn-floating btn waves-effect waves-light red">
+            <a id="add-new-line-link" class="btn-floating btn waves-effect waves-light green">
                 <i class="material-icons">add</i>
             </a>
-        </span>
-        </p>
+        </div>
         {{/if}}
     </div>
 </body>
 
 <template name="line">
-    <div class="line">
+    <div class="main-line">
         <span class="line-text">{{text}}</span>
         <span class="line-user">({{userName}})</span>
         {{#if isAlternative}}
@@ -54,16 +74,8 @@
 </template>
 
 <template name="replacementLine">
-    <span class="replace-line">
+    <div class="replace-line">
         <a href="#" class="tooltipped" data-position="bottom" data-delay="20" data-tooltip="Suggest line replacement"><i class="material-icons">swap_horiz</i></a>
-    </span>
-    <div id="{{_id}}" class="replacement-line">
-        <div class="input-field col s3">
-            <input id="{{_id}}" class="replacement-line-text" type="text">
-        </div>
-        <a id="add-replacement-line-link" href="#">
-            <i class="material-icons">add</i>
-        </a>
     </div>
 </template>
 

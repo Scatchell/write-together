@@ -3,6 +3,18 @@
     display: none;
 }
 
-.alternative-lines .line{
+.alternative-lines .main-line{
     margin-left: 20px;
+}
+
+#add-new-line-link{
+    margin-top: 40px;
+}
+
+#poem-table{
+    max-width: 400px;
+}
+
+#add-replacement-line{
+    margin-top: 40px;
 }
