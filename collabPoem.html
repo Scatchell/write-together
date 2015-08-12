@@ -13,21 +13,20 @@
         {{> loginButtons }}
         </div>
 
-        <table id="poem-table">
-            <tbody>
+        <div id="poem-table">
                 {{#each lines}}
-                            <tr>
-                                <td>
+                            <div class="row">
+                                <div class="col s1">
                                     {{> replacementLine}}
-                                </td>
-                                <td>
+                                </div>
+                                <div class="col s11">
                                     <div id="{{_id}}" class="row replacement-line">
                                         <div class="col s12">
-                                            <div class="row">
-                                            <div class="input-field col s10">
+                                            <div id="input-field-row" class="row">
+                                            <div class="input-field col s11">
                                                 <input id="{{_id}}" class="replacement-line-text" type="text">
                                             </div>
-                                            <div id="add-replacement-line" class="col s2">
+                                            <div id="add-replacement-line" class="col s1">
                                                 <a id="add-replacement-line-link" href="#">
                                                     <i class="material-icons">add</i>
                                                 </a>
@@ -36,11 +35,10 @@
                                         </div>
                                     </div>
                                     {{> line}}
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                 {{/each}}
-            </tbody>
-        </table>
+        </div>
 
         {{#if currentUser}}
         <div id="new-line" class="row">

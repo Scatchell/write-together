@@ -19,14 +19,15 @@
     margin-bottom: 0px;
 }
 
+#input-field-row{
+    position: relative;
+}
+
 .replacement-line .input-field {
     margin-top: 0px;
 }
 
-#add-replacement-line{
-    margin-top: 20px;
-}
-
-table#poem-table td{
-    vertical-align: top;
+#add-replacement-line-link{
+    position: absolute;
+    bottom: 10px;
 }
