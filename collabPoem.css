@@ -15,6 +15,18 @@
     max-width: 400px;
 }
 
+.row.replacement-line, .row.replacement-line .row {
+    margin-bottom: 0px;
+}
+
+.replacement-line .input-field {
+    margin-top: 0px;
+}
+
 #add-replacement-line{
-    margin-top: 40px;
+    margin-top: 20px;
+}
+
+table#poem-table td{
+    vertical-align: top;
 }
