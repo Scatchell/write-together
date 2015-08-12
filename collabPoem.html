@@ -23,9 +23,11 @@
         <div id="poem-table">
                 {{#each lines}}
                     <div class="row">
-                        <div class="col s1">
-                            {{> replacementLine}}
-                        </div>
+                            {{#if currentUser}}
+                                <div class="col s1">
+                                    {{> replacementLine}}
+                                </div>
+                            {{/if}}
                         <div class="col s11">
                             <div id="{{_id}}" class="row replacement-line">
                                 <div class="col s12">
