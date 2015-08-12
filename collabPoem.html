@@ -10,33 +10,40 @@
         <h1>Collaboratively create a poem!</h1>
 
         <div class="row">
-        {{> loginButtons }}
+            {{#unless currentUser}}
+                <div id="sign-in-reminder" class="col card-panel orange valign-wrapper">
+                   <span class="white-text valign">
+                        Sign in or quickly create an account with the link below to be able to add a line!
+                    </span>
+                </div>
+            {{/unless}}
+            <div class="col s12">{{> loginButtons }}</div>
         </div>
 
         <div id="poem-table">
                 {{#each lines}}
-                            <div class="row">
-                                <div class="col s1">
-                                    {{> replacementLine}}
-                                </div>
-                                <div class="col s11">
-                                    <div id="{{_id}}" class="row replacement-line">
-                                        <div class="col s12">
-                                            <div id="input-field-row" class="row">
-                                            <div class="input-field col s11">
-                                                <input id="{{_id}}" class="replacement-line-text" type="text">
-                                            </div>
-                                            <div id="add-replacement-line" class="col s1">
-                                                <a id="add-replacement-line-link" href="#">
-                                                    <i class="material-icons">add</i>
-                                                </a>
-                                            </div>
-                                            </div>
-                                        </div>
+                    <div class="row">
+                        <div class="col s1">
+                            {{> replacementLine}}
+                        </div>
+                        <div class="col s11">
+                            <div id="{{_id}}" class="row replacement-line">
+                                <div class="col s12">
+                                    <div id="input-field-row" class="row">
+                                    <div class="input-field col s11">
+                                        <input id="{{_id}}" class="replacement-line-text" type="text">
                                     </div>
-                                    {{> line}}
+                                    <div id="add-replacement-line" class="col s1">
+                                        <a id="add-replacement-line-link" href="#">
+                                            <i class="material-icons">add</i>
+                                        </a>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
+                            {{> line}}
+                        </div>
+                    </div>
                 {{/each}}
         </div>
 
