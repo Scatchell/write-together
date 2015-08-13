@@ -44,3 +44,12 @@
 .favorite-up {
     margin-left: 8px;
 }
+
+.poem-text {
+    white-space: pre-line;
+    display: none;
+}
+
+.poem-title-text {
+    font-weight: bold;
+}

@@ -1,4 +1,4 @@
-//todo sort lines by creation date
+
 
 var currentUser = "Anthony";
 
@@ -118,12 +118,34 @@ if (Meteor.isClient) {
             Lines.update(this._id, {
                 $set: { favorites: this.favorites + 1 }
             });
+        },
+        'click #poem-1-title': function (event) {
+            $(".poem-text").each(function(i, e){
+                $(e).hide();
+            });
+
+            $("#poem-1").show();
+        },
+        'click #poem-2-title': function (event) {
+            $(".poem-text").each(function(i, e){
+                $(e).hide();
+            });
+
+            $("#poem-2").show();
         }
     });
 
     Accounts.ui.config({
         passwordSignupFields: "USERNAME_AND_EMAIL"
     });
+
+    Template.header.rendered = function() {
+        $('.button-collapse').sideNav({
+            menuWidth: 450, // Default is 240
+            edge: 'right', // Choose the horizontal origin
+            closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+        });
+    }
 }
 
 if (Meteor.isServer) {
@@ -148,3 +170,4 @@ if (Meteor.isServer) {
       }
     });
 }
+
