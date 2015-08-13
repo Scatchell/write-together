@@ -63,21 +63,25 @@
 </body>
 
 <template name="line">
-    <div class="main-line">
-        <span class="line-text">{{text}}</span>
-        <span class="line-user">({{userName}})</span>
-        {{#if isAlternative}}
-        <span class="favorite-up">
-            <a href="#">+ ({{favorites}})</a>
-        </span>
-        {{/if}}
+    <div class="main-line row">
+        <div class="line-text col s9">{{text}}</div>
+        <div id="line-meta-data" class="col s3">
+            {{#if isAlternative}}
+                <span class="favorite-up right">
+                    <a href="#">+ ({{favorites}})</a>
+                </span>
+            {{/if}}
+            <span class="line-user right">({{userName}})</span>
+        </div>
     </div>
 
-    <div class="alternative-lines">
-        {{#each alternatives}}
-        {{>line }}
-        {{/each}}
-    </div>
+    {{#unless isAlternative}}
+        <div class="alternative-lines">
+            {{#each alternatives}}
+            {{>line }}
+            {{/each}}
+        </div>
+    {{/unless}}
 </template>
 
 <template name="replacementLine">

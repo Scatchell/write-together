@@ -5,6 +5,7 @@
 
 .alternative-lines .main-line{
     margin-left: 20px;
+    border-bottom: 1px solid orange;
 }
 
 #add-new-line-link{
@@ -12,7 +13,7 @@
 }
 
 #poem-table{
-    max-width: 400px;
+    max-width: 600px;
 }
 
 .row.replacement-line, .row.replacement-line .row {
@@ -34,4 +35,12 @@
 
 #sign-in-reminder {
     height: 30px;
+}
+
+.main-line {
+    border-bottom: none;
+}
+
+.favorite-up {
+    margin-left: 8px;
 }
