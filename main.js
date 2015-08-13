@@ -7,6 +7,12 @@ Lines = new Mongo.Collection("lines");
 if (Meteor.isClient) {
     //Session.setDefault('counter', 0);
 
+    var clearAllPoemExamples = function() {
+        $(".poem-text").each(function(i, e){
+            $(e).hide();
+        });
+    };
+
     var lines = function() {
         var list = Lines.find({}, {sort: {createdAt: 1}}).fetch();
         var sortedList = MeteorHelpers.sortByParents(list);
@@ -120,18 +126,16 @@ if (Meteor.isClient) {
             });
         },
         'click #poem-1-title': function (event) {
-            $(".poem-text").each(function(i, e){
-                $(e).hide();
-            });
+            clearAllPoemExamples();
 
             $("#poem-1").show();
         },
         'click #poem-2-title': function (event) {
-            $(".poem-text").each(function(i, e){
-                $(e).hide();
-            });
-
+            clearAllPoemExamples();
             $("#poem-2").show();
+        },
+        'click #clear-all-poem-examples': function (event) {
+            clearAllPoemExamples();
         }
     });
 
