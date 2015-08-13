@@ -35,6 +35,17 @@
                         </div>
                     </div>
                 {{/each}}
+
+                {{#if currentUser}}
+                <div id="new-line" class="row">
+                    <div class="input-field col s11">
+                        Next line: <input id="new-line-text" type="text">
+                    </div>
+                    <a id="add-new-line-link" class="btn-floating btn waves-effect waves-light green">
+                        <i class="material-icons">add</i>
+                    </a>
+                </div>
+                {{/if}}
         </div>
 
         <div id="poem-1" class="poem-text right col s4">
@@ -91,16 +102,6 @@
         </div>
     </div>
 
-        {{#if currentUser}}
-        <div id="new-line" class="row">
-            <div class="input-field col s6">
-                Next line: <input id="new-line-text" type="text">
-            </div>
-            <a id="add-new-line-link" class="btn-floating btn waves-effect waves-light green">
-                <i class="material-icons">add</i>
-            </a>
-        </div>
-        {{/if}}
     </div>
 
 </body>
