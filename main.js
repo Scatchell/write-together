@@ -14,6 +14,22 @@ if (Meteor.isClient) {
         return sortedList;
     };
 
+    var sendReminderEmailToAllUsers = function (bodyText) {
+        var users = Meteor.users.find({}, {fields: {"emails": 1}});
+        users.forEach(function(user){
+            if(user.emails != undefined) {
+                Meteor.call('sendEmail',
+                            user.emails[0].address,
+                            'write.together.no.reply@gmail.com',
+                            'New changes have been made!',
+                            bodyText);
+
+                            console.log("Email sent to: " + user.emails[0].address);
+            }
+        });
+
+    };
+
     var addNewLine = function (event) {
         event.preventDefault();
 
@@ -33,6 +49,8 @@ if (Meteor.isClient) {
             ordering: order
         });
 
+        sendReminderEmailToAllUsers("A new line has been added to your poem! It is: " + newLineText);
+
         $("#new-line-text").val('');
     };
 
@@ -50,6 +68,8 @@ if (Meteor.isClient) {
             createdAt: new Date(),
             ordering: line.ordering
         });
+
+        sendReminderEmailToAllUsers("A new replacement line has been added to your poem! It is: " + newLineText);
 
         $("#"+line._id+".replacement-line-text").val('');
         $("#"+line._id+".replacement-line").hide();
@@ -109,5 +129,22 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
     Meteor.startup(function () {
         // code to run on server at startup
+    });
+
+    Meteor.methods({
+      sendEmail: function (to, from, subject, text) {
+        check([to, from, subject, text], [String]);
+
+        // Let other method calls from the same client start running,
+        // without waiting for the email sending to complete.
+        this.unblock();
+
+        Email.send({
+          to: to,
+          from: from,
+          subject: subject,
+          text: text
+        });
+      }
     });
 }

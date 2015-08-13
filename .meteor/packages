@@ -12,3 +12,4 @@ accounts-password
 materialize:materialize
 sanjo:jasmine
 velocity:html-reporter
+email
