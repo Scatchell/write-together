@@ -21,7 +21,8 @@
                                 <div class="col s12">
                                     <div id="input-field-row" class="row">
                                     <div class="input-field col s11">
-                                        <input id="{{_id}}" class="replacement-line-text" type="text">
+                                        <input id="replacement-line-{{index}}" class="replacement-line-text" type="text">
+                                        <label for="replacement-line-{{index}}">Enter suggested replacement line here...</label>
                                     </div>
                                     <div id="add-replacement-line" class="col s1">
                                         <a id="add-replacement-line-link" href="#">
@@ -39,7 +40,8 @@
                 {{#if currentUser}}
                 <div id="new-line" class="row">
                     <div class="input-field col s11">
-                        Next line: <input id="new-line-text" type="text">
+                        <input id="new-line-text" type="text">
+                        <label for="new-line-text">Add next line here...</label>
                     </div>
                     <a id="add-new-line-link" class="btn-floating btn waves-effect waves-light green">
                         <i class="material-icons">add</i>

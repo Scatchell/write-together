@@ -63,7 +63,8 @@ if (Meteor.isClient) {
     var addNewReplacementLine = function (event, line) {
         event.preventDefault();
 
-        var newLineText = $("#"+line._id+".replacement-line-text").val();
+        var replacementLineInput = $("#replacement-line-"+line.index+".replacement-line-text");
+        var newLineText = replacementLineInput.val();
 
         Lines.insert({
             text: newLineText,
@@ -77,8 +78,8 @@ if (Meteor.isClient) {
 
         sendReminderEmailToAllUsers("A new replacement line has been added to your poem! It is: " + newLineText);
 
-        $("#"+line._id+".replacement-line-text").val('');
-        $("#"+line._id+".replacement-line").hide();
+        replacementLineInput.val('');
+        replacementLineInput.hide();
     };
 
     Template.body.helpers({

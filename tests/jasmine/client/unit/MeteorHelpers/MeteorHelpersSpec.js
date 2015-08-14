@@ -67,5 +67,14 @@ describe("CollabPoem", function() {
             expect(lineWithAlternatives.alternatives[0].isAlternative).toEqual(true);
             expect(lineWithAlternatives.alternatives).toEqual([lineThree]);
         });
+
+        it("should keep index of lines in order", function() {
+            var sortedList = MeteorHelpers.sortByParents(list);
+            expect(sortedList[0].index).toEqual(0);
+            expect(sortedList[1].index).toEqual(1);
+            expect(sortedList[2].index).toEqual(2);
+        });
+
+
     });
 });

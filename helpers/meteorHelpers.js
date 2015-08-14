@@ -9,7 +9,7 @@ MeteorHelpers = {
 
         var sortedList = [];
 
-        MeteorHelpers.uniqueOrderingValues(sortedLines).forEach(function(orderingValue){
+        MeteorHelpers.uniqueOrderingValues(sortedLines).forEach(function(orderingValue, index){
             var linesMatchingOrderingValue = list.filter(function(line) {
                 return line.ordering == orderingValue;
             });
@@ -24,6 +24,8 @@ MeteorHelpers = {
             topRatedMatch.alternatives.forEach(function(line) {
                 line.isAlternative = true;
             });
+
+            topRatedMatch.index = index;
             sortedList.push(topRatedMatch);
         });
 
