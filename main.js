@@ -63,7 +63,7 @@ if (Meteor.isClient) {
     var addNewReplacementLine = function (event, line) {
         event.preventDefault();
 
-        var replacementLineInput = $("#replacement-line-"+line.index+".replacement-line-text");
+        var replacementLineInput = $("#replacement-line-text-"+line.index+".replacement-line-text");
         var newLineText = replacementLineInput.val();
 
         Lines.insert({
@@ -79,7 +79,7 @@ if (Meteor.isClient) {
         sendReminderEmailToAllUsers("A new replacement line has been added to your poem! It is: " + newLineText);
 
         replacementLineInput.val('');
-        replacementLineInput.hide();
+        $("#replacement-line-"+line.index+".replacement-line").hide();
     };
 
     Template.body.helpers({
@@ -104,7 +104,7 @@ if (Meteor.isClient) {
         'click #add-new-line-link': addNewLine,
         'click .replace-line': function (event) {
             event.preventDefault();
-            var replacementLine = $("#" + this._id + ".replacement-line");
+            var replacementLine = $("#replacement-line-"+this.index+".replacement-line");
             if(replacementLine.is(":visible")){
                 replacementLine.hide();
             } else {
