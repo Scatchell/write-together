@@ -1,4 +1,5 @@
-
+//todo show validation error if no text is put into text box
+//todo button to view final poem
 
 var currentUser = "Anthony";
 
@@ -137,6 +138,10 @@ if (Meteor.isClient) {
         },
         'click #clear-all-poem-examples': function (event) {
             clearAllPoemExamples();
+        },
+        'click .remove': function (event) {
+            event.preventDefault();
+            Lines.remove(this._id);
         }
     });
 

@@ -1,8 +1,10 @@
 describe("CollabPoem", function() {
     var list;
+
     var toIds = function(e) {
         return e._id;
     };
+
     var lineThree = {
         _id: 3,
         text: 'line3',
@@ -58,6 +60,32 @@ describe("CollabPoem", function() {
             var sortedList = MeteorHelpers.sortByParents(list);
             var sortedListIds = sortedList.map(toIds);
             expect(sortedListIds).toEqual([1,4,2]);
+        });
+
+        it("should order alt lines with same number of favorites correctly", function() {
+            var lineSix = {
+                _id: 6,
+                text: 'line6',
+                favorites: 0,
+                ordering: 1
+            };
+
+            var lineFive = {
+                _id: 5,
+                text: 'line5',
+                favorites: 0,
+                ordering: 1
+            };
+
+            list.push(lineSix);
+            list.push(lineFive);
+
+            var sortedList = MeteorHelpers.sortByParents(list);
+            var sortedListIds = sortedList.map(toIds);
+            expect(sortedListIds).toEqual([1,4,2]);
+            var lineWithAlternatives = sortedList[1];
+            expect(lineWithAlternatives.alternatives.length).toEqual(3);
+            expect(lineWithAlternatives.alternatives.map(toIds)).toEqual([3,6,5]);
         });
 
         it("should add any alternative lines to a line", function() {

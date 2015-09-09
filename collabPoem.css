@@ -42,6 +42,7 @@
 }
 
 .favorite-up {
+    float: right;
     margin-left: 8px;
 }
 
@@ -52,4 +53,13 @@
 
 .poem-title-text {
     font-weight: bold;
+}
+
+.line-user {
+    float: right;
+}
+
+.remove {
+    float: right;
+    margin-left: 5px;
 }

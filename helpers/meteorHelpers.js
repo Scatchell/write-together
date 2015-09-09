@@ -1,4 +1,5 @@
 MeteorHelpers = {
+    //todo rename this method
     sortByParents: function(list) {
         if(list.length == 0) return [];
 
@@ -14,9 +15,10 @@ MeteorHelpers = {
                 return line.ordering == orderingValue;
             });
 
-            var matchingItemsSortedByFavorites = linesMatchingOrderingValue.sort(
-                function(a,b) { return b.favorites - a.favorites; }
-            );
+            var matchingItemsSortedByFavorites = linesMatchingOrderingValue.sort(function(a,b) {
+                return b.favorites - a.favorites;
+            });
+
             var topRatedMatch = matchingItemsSortedByFavorites[0];
             topRatedMatch.isAlternative = false;
 
