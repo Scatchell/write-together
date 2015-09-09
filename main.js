@@ -1,12 +1,18 @@
 //todo show validation error if no text is put into text box
 //todo button to view final poem
-
-var currentUser = "Anthony";
+//todo auto focus replacement line when arrows are clicked
+//todo delete enabled for only your own lines?
 
 Lines = new Mongo.Collection("lines");
+Poems = new Mongo.Collection("poems");
 
 if (Meteor.isClient) {
-    //Session.setDefault('counter', 0);
+//poems ------------------------------------begin
+   var poems = function() {
+       return Poems.find({}).fetch();
+   }
+//poems ------------------------------------end
+
 
     var clearAllPoemExamples = function() {
         $(".poem-text").each(function(i, e){
@@ -83,8 +89,15 @@ if (Meteor.isClient) {
         $("#replacement-line-"+line.index+".replacement-line").hide();
     };
 
-    Template.body.helpers({
+    Template.Lines.helpers({
         lines: lines,
+        log: function () {
+            console.log(this);
+        }
+    });
+
+    Template.Poems.helpers({
+        poems: poems,
         log: function () {
             console.log(this);
         }
@@ -168,7 +181,7 @@ if (Meteor.isServer) {
         check([to, from, subject, text], [String]);
 
         // Let other method calls from the same client start running,
-        // without waiting for the email sending to complete.
+        // without waiting for the email send to complete.
         this.unblock();
 
         Email.send({

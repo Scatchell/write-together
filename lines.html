@@ -1,0 +1,46 @@
+<template name="Lines">
+<h1>Collaboratively create a poem!</h1>
+<div id="poem-table" class="col s7">
+    {{#each lines}}
+    <div class="row">
+        {{#if currentUser}}
+        <div class="col s1">
+            {{> replacementLine}}
+        </div>
+        {{/if}}
+        <div class="col s11">
+            <div id="replacement-line-{{index}}" class="row replacement-line">
+                <div class="col s12">
+                    <div id="input-field-row" class="row">
+                        <div class="input-field col s11">
+                            <input id="replacement-line-text-{{index}}" class="replacement-line-text" type="text">
+                            <label for="replacement-line-text-{{index}}">Enter suggested replacement line here...</label>
+                        </div>
+                        <div id="add-replacement-line" class="col s1">
+                            <a id="add-replacement-line-link" href="#">
+                                <i class="material-icons">add</i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{> line}}
+        </div>
+    </div>
+    {{/each}}
+
+    {{#if currentUser}}
+    <div id="new-line" class="row">
+        <div class="input-field col s11">
+            <input id="new-line-text" type="text">
+            <label for="new-line-text">Add next line here...</label>
+        </div>
+        <a id="add-new-line-link" class="btn-floating btn waves-effect waves-light green">
+            <i class="material-icons">add</i>
+        </a>
+    </div>
+    {{/if}}
+</div>
+
+{{> examplePoems}}
+</template>
