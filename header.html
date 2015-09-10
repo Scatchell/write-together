@@ -1,11 +1,16 @@
 <template name="header">
     <header>
         <nav class="green">
-            <ul class="right hide-on-med-and-down">
+            <ul>
                 <li>
+                    <a href="/poems">View all poems</a>
+                </li>
+                <li class="right">
+                    <a data-activates="slide-out" id="side-menu" class="button-collapse show-on-large" href="#!">Show some poem suggestions...</a>
+                </li>
+                <li class="right">
                     {{> userSignIn }}
                 </li>
-                <li><a data-activates="slide-out" id="side-menu" class="button-collapse show-on-large" href="#!">Show some poem suggestions...</a></li>
             </ul>
             <ul id="slide-out" class="side-nav">
                 <li><a id="poem-1-title" href="#!">Stopping by Woods on a Snowy Evening: Robert Frost</a></li>
