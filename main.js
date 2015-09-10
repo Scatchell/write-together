@@ -27,6 +27,13 @@ if (Meteor.isClient) {
         return sortedList;
     };
 
+    var lines = function(poemId) {
+        var list = Lines.find({poemId: poemId}, {sort: {createdAt: 1}}).fetch();
+        var sortedList = MeteorHelpers.sortByParents(list);
+
+        return sortedList;
+    };
+
     var sendReminderEmailToAllUsers = function (bodyText) {
         var users = Meteor.users.find({}, {fields: {"emails": 1}});
         users.forEach(function(user){
@@ -116,6 +123,12 @@ if (Meteor.isClient) {
         }
     });
 
+    Template.fullPoem.helpers({
+        lines: function() {
+            return lines(this._id);
+        },
+    })
+
     Template.Poems.helpers({
         poems: poems,
         log: function () {
@@ -177,6 +190,7 @@ if (Meteor.isClient) {
         },
         'click #clear-all-poem-examples': function (event) {
             clearAllPoemExamples();
+            $("#full-poem").show();
         },
     });
 

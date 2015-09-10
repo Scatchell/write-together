@@ -1,5 +1,5 @@
 Router.configure({
-        layoutTemplate: 'mainLayout'
+    layoutTemplate: 'mainLayout'
 });
 
 Router.route('/', function() {
@@ -7,12 +7,15 @@ Router.route('/', function() {
 });
 
 Router.route('Poems', {
-    path: '/poems'
+    path: '/poems',
 });
 
 Router.route('Poem', {
     path: '/poem/:poemId',
     data: function(){
         return Poems.findOne({_id: this.params.poemId});
+    },
+    yieldTemplates: {
+        'fullPoem': {to: 'fullPoem'}
     }
 });

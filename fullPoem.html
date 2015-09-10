@@ -1,0 +1,12 @@
+<template name="fullPoem">
+<div id="full-poem" class="poem-text">
+<h5>Full poem text:</h5>
+{{ #each lines }}
+    {{> topLevelLine }}
+{{ /each }}
+</div>
+</template>
+
+<template name="topLevelLine">
+    {{text}}
+</template>

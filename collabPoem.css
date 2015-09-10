@@ -48,7 +48,15 @@
 
 .poem-text {
     white-space: pre-line;
+    border-left: solid 1px lightgrey;
+    padding-left: 35px;
+
     display: none;
+}
+
+.poem-text#full-poem {
+    white-space: pre-line;
+    display: block;
 }
 
 .poem-title-text {

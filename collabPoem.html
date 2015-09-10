@@ -10,7 +10,11 @@
             <div class="row">
                 {{> yield}}
 
+                <div id="poems-right-side" class="col s4 right">
                 {{> examplePoems}}
+
+                {{> yield region="fullPoem"}}
+                </div>
             </div>
         </div>
     </body>
