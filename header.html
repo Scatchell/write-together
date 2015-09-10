@@ -1,0 +1,17 @@
+<template name="header">
+    <header>
+        <nav class="green">
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    {{> userSignIn }}
+                </li>
+                <li><a data-activates="slide-out" id="side-menu" class="button-collapse show-on-large" href="#!">Show some poem suggestions...</a></li>
+            </ul>
+            <ul id="slide-out" class="side-nav">
+                <li><a id="poem-1-title" href="#!">Stopping by Woods on a Snowy Evening: Robert Frost</a></li>
+                <li><a id="poem-2-title" href="#!">Be Glad Your Nose is on Your Face: Jack Prelutsky</a></li>
+                <li><a id="clear-all-poem-examples" href="#!">(Clear all examples)</a></li>
+            </ul>
+        </nav>
+    </header>
+</template>

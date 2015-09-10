@@ -20,8 +20,8 @@ if (Meteor.isClient) {
         });
     };
 
-    var lines = function() {
-        var list = Lines.find({}, {sort: {createdAt: 1}}).fetch();
+    var lines = function(poemId) {
+        var list = Lines.find({poemId: poemId}, {sort: {createdAt: 1}}).fetch();
         var sortedList = MeteorHelpers.sortByParents(list);
 
         return sortedList;
@@ -43,21 +43,23 @@ if (Meteor.isClient) {
 
     };
 
-    var addNewLine = function (event) {
+    var addNewLine = function (event, poemId) {
         event.preventDefault();
 
         var newLineText = $("#new-line-text").val();
 
-        var currentLines = lines();
+        var currentLines = lines(poemId);
 
         var order = (currentLines.length == 0) ? 0 : currentLines[currentLines.length - 1].ordering + 1;
+
+        var currentPoem = poemId;
 
         Lines.insert({
             text: newLineText,
             userId: Meteor.userId(),
             userName: Meteor.user().username,
             favorites: 0,
-            poemId: 0,
+            poemId: currentPoem,
             createdAt: new Date(),
             ordering: order
         });
@@ -78,7 +80,7 @@ if (Meteor.isClient) {
             userId: Meteor.userId(),
             userName: Meteor.user().username,
             favorites: 0,
-            poemId: 0,
+            poemId: line.poemId,
             createdAt: new Date(),
             ordering: line.ordering
         });
@@ -89,8 +91,26 @@ if (Meteor.isClient) {
         $("#replacement-line-"+line.index+".replacement-line").hide();
     };
 
-    Template.Lines.helpers({
-        lines: lines,
+    var addNewPoem = function (event) {
+        event.preventDefault();
+
+        var newPoemText = $("#new-poem-text").val();
+
+        Poems.insert({
+            title: newPoemText,
+            userId: Meteor.userId(),
+            userName: Meteor.user().username,
+            favorites: 0,
+            createdAt: new Date(),
+        });
+
+        $("#new-poem-text").val('');
+    };
+
+    Template.Poem.helpers({
+        lines: function() {
+            return lines(this._id);
+        },
         log: function () {
             console.log(this);
         }
@@ -109,10 +129,10 @@ if (Meteor.isClient) {
         }
     });
 
-    Template.body.events({
+    Template.Poem.events({
         'keypress #new-line-text': function(event) {
             if (event.which === 13) {
-                addNewLine(event);
+                addNewLine(event, this._id);
             }
         },
         'click #add-new-line-link': addNewLine,
@@ -140,9 +160,15 @@ if (Meteor.isClient) {
                 $set: { favorites: this.favorites + 1 }
             });
         },
+        'click .remove': function (event) {
+            event.preventDefault();
+            Lines.remove(this._id);
+        },
+    });
+
+    Template.header.events({
         'click #poem-1-title': function (event) {
             clearAllPoemExamples();
-
             $("#poem-1").show();
         },
         'click #poem-2-title': function (event) {
@@ -152,9 +178,19 @@ if (Meteor.isClient) {
         'click #clear-all-poem-examples': function (event) {
             clearAllPoemExamples();
         },
-        'click .remove': function (event) {
-            event.preventDefault();
-            Lines.remove(this._id);
+    });
+
+    Template.Poems.events({
+        'click #add-new-poem-link': function (event){
+            addNewPoem(event);
+        },
+        'keypress #new-poem-text': function(event) {
+            if (event.which === 13) {
+                addNewPoem(event);
+            }
+        },
+        'click .poem-view-link': function(event) {
+
         }
     });
 
