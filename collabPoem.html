@@ -21,19 +21,37 @@
                 {{> yield}}
 
                 <div id="poems-right-side" class="col s4 right">
-                {{> examplePoems}}
+                    {{> examplePoems}}
 
-                {{> yield region="fullPoem"}}
+                    {{> yield region="fullPoem"}}
+
+                    {{> notifications}}
                 </div>
             </div>
         </div>
     </body>
 </template>
 
+<template name="notifications">
+    <div>
+        <p>
+            <input id="notifications-checkbox" type="checkbox" checked={{notificationsEnabled}} />
+            <label for="notifications-checkbox">
+            {{#if notificationsEnabled}}
+                E-Mail notifications currently enabled, disable?
+            {{else}}
+                E-Mail notifications currently disabled, enable?
+            {{/if}}
+            </label>
+        </p>
+    </div>
+</template>
+
 <template name="line">
     <div class="main-line row">
         <div class="line-text col s8">{{text}}</div>
         <div id="line-meta-data" class="col s4">
+            {{#if currentUser}}
             <span id="extra-info" class="right">
                 <span class="remove">
                     <a href="#"><i class="material-icons">delete</i></a>
@@ -45,6 +63,7 @@
                 {{/if}}
                 <span class="line-user">({{userName}})</span>
             </span>
+            {{/if}}
         </div>
     </div>
 

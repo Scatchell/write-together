@@ -35,19 +35,7 @@ if (Meteor.isClient) {
     };
 
     var sendReminderEmailToAllUsers = function (bodyText) {
-        var users = Meteor.users.find({}, {fields: {"emails": 1}});
-        users.forEach(function(user){
-            if(user.emails != undefined) {
-                Meteor.call('sendEmail',
-                            user.emails[0].address,
-                            'write.together.no.reply@gmail.com',
-                            'New changes have been made!',
-                            bodyText);
-
-                            console.log("Email sent to: " + user.emails[0].address);
-            }
-        });
-
+        Meteor.call('sendEmail', bodyText);
     };
 
     var addNewLine = function (event, poemId) {
@@ -71,7 +59,7 @@ if (Meteor.isClient) {
             ordering: order
         });
 
-        sendReminderEmailToAllUsers("A new line has been added to your poem! It is: " + newLineText);
+        sendReminderEmailToAllUsers("A new line has been added to a poem, you might want to check it out! It is: \"" + newLineText + "\"");
 
         $("#new-line-text").val('');
     };
@@ -92,7 +80,8 @@ if (Meteor.isClient) {
             ordering: line.ordering
         });
 
-        sendReminderEmailToAllUsers("A new replacement line has been added to your poem! It is: " + newLineText);
+        //todo make notifications only be sent out for poems users have posted on/subscribed to
+        sendReminderEmailToAllUsers("A new replacement line has been suggested to a poem, you might want to check it out! It is: \"" + newLineText + "\"");
 
         replacementLineInput.val('');
         $("#replacement-line-"+line.index+".replacement-line").hide();
@@ -140,6 +129,14 @@ if (Meteor.isClient) {
         log: function () {
             console.log(this);
         }
+    });
+
+    var notificationsEnabled = function () {
+        return Meteor.user().profile.notifications;
+    };
+
+    Template.notifications.helpers({
+        notificationsEnabled: notificationsEnabled
     });
 
     Template.Poem.events({
@@ -208,6 +205,12 @@ if (Meteor.isClient) {
         }
     });
 
+    Template.notifications.events({
+        'click #notifications-checkbox': function(event) {
+            Meteor.users.update({_id: Meteor.userId()}, {$set: {'profile.notifications': !notificationsEnabled()}})
+        }
+    });
+
     Accounts.ui.config({
         passwordSignupFields: "USERNAME_AND_EMAIL"
     });
@@ -219,28 +222,55 @@ if (Meteor.isClient) {
             closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
         });
     }
+
 }
 
 if (Meteor.isServer) {
+    Accounts.onCreateUser(function(options, user) {
+
+    //debugger;
+    //if (options.profile) {
+        //options.profile.notifications = true;
+        //user.profile = options.profile;
+    //}
+
+      user.profile = {
+          "notifications": true
+      }
+
+    return user;
+    });
+
+
+    //Meteor.publish("userData", function () {
+      //if (this.userId) {
+        //return Meteor.users.find({_id: this.userId}, {fields: {'notifications': 1}});
+      //} else {
+        //this.ready();
+      //}
+    //});
+
     Meteor.startup(function () {
         // code to run on server at startup
     });
 
     Meteor.methods({
-      sendEmail: function (to, from, subject, text) {
-        check([to, from, subject, text], [String]);
+        sendEmail: function(bodyText) {
+            // Let other method calls from the same client start running,
+            // without waiting for the email send to complete.
+            this.unblock();
 
-        // Let other method calls from the same client start running,
-        // without waiting for the email send to complete.
-        this.unblock();
-
-        Email.send({
-          to: to,
-          from: from,
-          subject: subject,
-          text: text
-        });
-      }
+            var users = Meteor.users.find({"profile.notifications": true}).fetch();
+            debugger;
+            users.forEach(function(user){
+                Email.send({
+                    to: user.emails[0].address,
+                    from: 'write.together.no.reply@gmail.com',
+                    subject: 'New changes have been made!',
+                    text: bodyText
+                });
+            });
+        }
     });
 }
 
