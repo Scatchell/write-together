@@ -13,7 +13,6 @@ if (Meteor.isClient) {
    }
 //poems ------------------------------------end
 
-
     var clearAllPoemExamples = function() {
         $(".poem-text").each(function(i, e){
             $(e).hide();
@@ -27,14 +26,7 @@ if (Meteor.isClient) {
         return sortedList;
     };
 
-    var lines = function(poemId) {
-        var list = Lines.find({poemId: poemId}, {sort: {createdAt: 1}}).fetch();
-        var sortedList = MeteorHelpers.sortByParents(list);
-
-        return sortedList;
-    };
-
-    var sendReminderEmailToAllUsers = function (bodyText) {
+    var sendReminderEmails = function (bodyText) {
         Meteor.call('sendEmail', bodyText);
     };
 
@@ -49,17 +41,9 @@ if (Meteor.isClient) {
 
         var currentPoem = poemId;
 
-        Lines.insert({
-            text: newLineText,
-            userId: Meteor.userId(),
-            userName: Meteor.user().username,
-            favorites: 0,
-            poemId: currentPoem,
-            createdAt: new Date(),
-            ordering: order
-        });
+        Meteor.call('addNewLine', newLineText, currentPoem, order);
 
-        sendReminderEmailToAllUsers("A new line has been added to a poem, you might want to check it out! It is: \"" + newLineText + "\"");
+        sendReminderEmails("A new line has been added to a poem, you might want to check it out! It is: \"" + newLineText + "\"");
 
         $("#new-line-text").val('');
     };
@@ -70,18 +54,10 @@ if (Meteor.isClient) {
         var replacementLineInput = $("#replacement-line-text-"+line.index+".replacement-line-text");
         var newLineText = replacementLineInput.val();
 
-        Lines.insert({
-            text: newLineText,
-            userId: Meteor.userId(),
-            userName: Meteor.user().username,
-            favorites: 0,
-            poemId: line.poemId,
-            createdAt: new Date(),
-            ordering: line.ordering
-        });
+        Meteor.call('addNewLine', newLineText, line.poemId, line.ordering);
 
         //todo make notifications only be sent out for poems users have posted on/subscribed to
-        sendReminderEmailToAllUsers("A new replacement line has been suggested to a poem, you might want to check it out! It is: \"" + newLineText + "\"");
+        sendReminderEmails("A new replacement line has been suggested to a poem, you might want to check it out! It is: \"" + newLineText + "\"");
 
         replacementLineInput.val('');
         $("#replacement-line-"+line.index+".replacement-line").hide();
@@ -92,13 +68,7 @@ if (Meteor.isClient) {
 
         var newPoemText = $("#new-poem-text").val();
 
-        Poems.insert({
-            title: newPoemText,
-            userId: Meteor.userId(),
-            userName: Meteor.user().username,
-            favorites: 0,
-            createdAt: new Date(),
-        });
+        Meteor.call("addNewPoem", newPoemText);
 
         $("#new-poem-text").val('');
     };
@@ -166,13 +136,11 @@ if (Meteor.isClient) {
         },
         'click .favorite-up a': function (event) {
             event.preventDefault();
-            Lines.update(this._id, {
-                $set: { favorites: this.favorites + 1 }
-            });
+            Meteor.call('favoriteUp', this._id, this.favorites);
         },
         'click .remove': function (event) {
             event.preventDefault();
-            Lines.remove(this._id);
+            Meteor.call('removeLine', this._id);
         },
     });
 
@@ -207,7 +175,7 @@ if (Meteor.isClient) {
 
     Template.notifications.events({
         'click #notifications-checkbox': function(event) {
-            Meteor.users.update({_id: Meteor.userId()}, {$set: {'profile.notifications': !notificationsEnabled()}})
+            Meteor.call('updateNotificationsFlag', !notificationsEnabled())
         }
     });
 
@@ -222,55 +190,4 @@ if (Meteor.isClient) {
             closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
         });
     }
-
 }
-
-if (Meteor.isServer) {
-    Accounts.onCreateUser(function(options, user) {
-
-    //debugger;
-    //if (options.profile) {
-        //options.profile.notifications = true;
-        //user.profile = options.profile;
-    //}
-
-      user.profile = {
-          "notifications": true
-      }
-
-    return user;
-    });
-
-
-    //Meteor.publish("userData", function () {
-      //if (this.userId) {
-        //return Meteor.users.find({_id: this.userId}, {fields: {'notifications': 1}});
-      //} else {
-        //this.ready();
-      //}
-    //});
-
-    Meteor.startup(function () {
-        // code to run on server at startup
-    });
-
-    Meteor.methods({
-        sendEmail: function(bodyText) {
-            // Let other method calls from the same client start running,
-            // without waiting for the email send to complete.
-            this.unblock();
-
-            var users = Meteor.users.find({"profile.notifications": true}).fetch();
-            debugger;
-            users.forEach(function(user){
-                Email.send({
-                    to: user.emails[0].address,
-                    from: 'write.together.no.reply@gmail.com',
-                    subject: 'New changes have been made!',
-                    text: bodyText
-                });
-            });
-        }
-    });
-}
-

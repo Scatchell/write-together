@@ -17,5 +17,15 @@ Router.route('Poem', {
     },
     yieldTemplates: {
         'fullPoem': {to: 'fullPoem'}
+    },
+    onAfterAction: function(){
+        $(".poem-text").each(function(i, e){
+            $(e).hide();
+        });
     }
+});
+
+Router.route('Instructions', {
+    path: '/instructions',
+    layoutTemplate: 'layoutWithoutRightSide'
 });

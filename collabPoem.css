@@ -75,3 +75,7 @@
 .poem-title {
     font-size: 2rem;
 }
+
+#notifications-container {
+    margin-top: 120px;
+}

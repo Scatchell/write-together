@@ -29,8 +29,8 @@
     </div>
     {{/each}}
 
-    {{#if currentUser}}
     <div id="new-line" class="row">
+    {{#if currentUser}}
         <div class="input-field col s11">
             <input id="new-line-text" type="text">
             <label for="new-line-text">Add next line here...</label>
@@ -38,8 +38,16 @@
         <a id="add-new-line-link" class="btn-floating btn waves-effect waves-light green">
             <i class="material-icons">add</i>
         </a>
+    {{else}}
+    <div class="col s12">
+        <div class="card-panel amber lighten-2 center-align">
+            <span class="white-text">
+                (Please login to be able to add a line to this poem)
+            </span>
+        </div>
     </div>
     {{/if}}
+    </div>
 </div>
 
 </template>
