@@ -1,17 +1,18 @@
 //todo show validation error if no text is put into text box
-//todo button to view final poem
-//todo auto focus replacement line when arrows are clicked
 //todo delete enabled for only your own lines?
+//todo part of the above would require down voting and some threshold (-10?) auto-deleting replacement line
 
 Lines = new Mongo.Collection("lines");
 Poems = new Mongo.Collection("poems");
 
 if (Meteor.isClient) {
-//poems ------------------------------------begin
-   var poems = function() {
-       return Poems.find({}).fetch();
-   }
-//poems ------------------------------------end
+    Meteor.subscribe('lines');
+    Meteor.subscribe('poems');
+    //poems ------------------------------------begin
+    var poems = function() {
+        return Poems.find({}).fetch();
+    }
+    //poems ------------------------------------end
 
     var clearAllPoemExamples = function() {
         $(".poem-text").each(function(i, e){
@@ -119,11 +120,13 @@ if (Meteor.isClient) {
         'click .replace-line': function (event) {
             event.preventDefault();
             var replacementLine = $("#replacement-line-"+this.index+".replacement-line");
+            var replacementLineInput = $("#replacement-line-text-"+this.index+".replacement-line-text");
             if(replacementLine.is(":visible")){
                 replacementLine.hide();
             } else {
                 $(".replacement-line").hide();
                 replacementLine.show();
+                replacementLineInput.focus();
             }
         },
         'click #add-replacement-line-link': function(event) {

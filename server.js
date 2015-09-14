@@ -1,30 +1,38 @@
 if (Meteor.isServer) {
     Accounts.onCreateUser(function(options, user) {
 
-    //debugger;
-    //if (options.profile) {
+        //debugger;
+        //if (options.profile) {
         //options.profile.notifications = true;
         //user.profile = options.profile;
-    //}
+        //}
 
-      user.profile = {
-          "notifications": true
-      }
+        user.profile = {
+            "notifications": true
+        }
 
-    return user;
+        return user;
     });
 
 
     //Meteor.publish("userData", function () {
-      //if (this.userId) {
-        //return Meteor.users.find({_id: this.userId}, {fields: {'notifications': 1}});
-      //} else {
-        //this.ready();
-      //}
+    //if (this.userId) {
+    //return Meteor.users.find({_id: this.userId}, {fields: {'notifications': 1}});
+    //} else {
+    //this.ready();
+    //}
     //});
 
     Meteor.startup(function () {
         // code to run on server at startup
+    });
+
+    Meteor.publish('lines', function () {
+        return Lines.find();
+    });
+
+    Meteor.publish('poems', function () {
+        return Poems.find();
     });
 
     var verifyUserAuthorized = function() {

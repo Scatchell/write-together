@@ -12,4 +12,3 @@ sanjo:jasmine
 velocity:html-reporter
 email
 iron:router
-autopublish
