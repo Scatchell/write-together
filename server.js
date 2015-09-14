@@ -85,6 +85,8 @@ if (Meteor.isServer) {
             });
         },
         addNewPoem: function(newPoemText) {
+            verifyUserAuthorized();
+
             Poems.insert({
                 title: newPoemText,
                 userId: Meteor.userId(),
@@ -94,6 +96,8 @@ if (Meteor.isServer) {
             });
         },
         updateNotificationsFlag: function(newFlagValue) {
+            verifyUserAuthorized();
+
             Meteor.users.update(
                 Meteor.userId(),
                 {$set: {'profile.notifications': newFlagValue}}

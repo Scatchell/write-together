@@ -24,7 +24,9 @@ ga('send', 'pageview');
 
                     {{> yield region="fullPoem"}}
 
+                    {{#if currentUser}}
                     {{> notifications}}
+                    {{/if}}
                 </div>
             </div>
         </div>

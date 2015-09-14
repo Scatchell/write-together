@@ -1,6 +1,8 @@
 //todo show validation error if no text is put into text box
 //todo delete enabled for only your own lines?
 //todo part of the above would require down voting and some threshold (-10?) auto-deleting replacement line
+//Enable confirmation for deletion of lines
+//todo enable delete for entire poems? Definitely need confirmation for this
 
 Lines = new Mongo.Collection("lines");
 Poems = new Mongo.Collection("poems");
